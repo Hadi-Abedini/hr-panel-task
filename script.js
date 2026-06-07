@@ -209,30 +209,121 @@ function applyF() {
 }
 
 function updPanel() {
-  const ti = document.getElementById('ptxt');
-  const ba = document.getElementById('pbadge');
+  const ti = document.getElementById("ptxt");
+  const ba = document.getElementById("pbadge");
   if (selSt === -1) {
-    ti.textContent = 'همه درخواست‌ها';
-    ba.style.cssText = 'background:#f1f5f9;color:#475569';
+    ti.textContent = "همه درخواست‌ها";
+    ba.style.cssText = "background:#f1f5f9;color:#475569";
   } else {
     ti.textContent = SN[selSt];
     ba.style.cssText = `background:${SC[selSt][1]};color:${SC[selSt][0]}`;
   }
-  ba.textContent = fn(filtRqs.length) + ' درخواست';
+  ba.textContent = fn(filtRqs.length) + " درخواست";
 }
 
 function updChips(q, ft, fd, fp) {
-  const el = document.getElementById('fchips');
-  el.innerHTML = '';
+  const el = document.getElementById("fchips");
+  el.innerHTML = "";
   const add = (lbl, clr) => {
-    const c = document.createElement('div');
-    c.className = 'fchip';
+    const c = document.createElement("div");
+    c.className = "fchip";
     c.innerHTML = `${lbl} <span class="fx">✕</span>`;
     c.onclick = clr;
     el.appendChild(c);
   };
-  if (q)  add(`جستجو: "${q}"`, () => { document.getElementById('srch').value  = ''; applyF(); });
-  if (ft) add(ft,               () => { document.getElementById('ftype').value = ''; applyF(); });
-  if (fd) add(fd,               () => { document.getElementById('fdept').value = ''; applyF(); });
-  if (fp) add(PLAB[fp],         () => { document.getElementById('fpri').value  = ''; applyF(); });
+  if (q)
+    add(`جستجو: "${q}"`, () => {
+      document.getElementById("srch").value = "";
+      applyF();
+    });
+  if (ft)
+    add(ft, () => {
+      document.getElementById("ftype").value = "";
+      applyF();
+    });
+  if (fd)
+    add(fd, () => {
+      document.getElementById("fdept").value = "";
+      applyF();
+    });
+  if (fp)
+    add(PLAB[fp], () => {
+      document.getElementById("fpri").value = "";
+      applyF();
+    });
+}
+
+function renderTbl() {
+  const tb = document.getElementById("tbody");
+  const em = document.getElementById("emp");
+  const s = (curPg - 1) * PS;
+  const items = filtRqs.slice(s, s + PS);
+
+  if (!filtRqs.length) {
+    tb.innerHTML = "";
+    em.style.display = "block";
+  } else {
+    em.style.display = "none";
+    tb.innerHTML = items
+      .map((r) => {
+        const ti = TYPES.indexOf(r.type);
+        const [tc, tbg] = ti >= 0 ? TYPE_COLORS[ti] : ["#64748b", "#f1f5f9"];
+        const ico = ti >= 0 ? TYPE_ICONS[ti] : "📝";
+        return `
+        <tr class="${selIds.has(r.id) ? "sel" : ""}" id="tr-${r.id}">
+          <td><input type="checkbox" ${selIds.has(r.id) ? "checked" : ""} onchange="togSel('${r.id}')"></td>
+          <td style="font-family:monospace;font-size:11px;color:#94a3b8">${r.id}</td>
+          <td>
+            <div class="emp-cell">
+              <div class="emp-av" style="background:${avClr(r.id)}">${inits(r.name)}</div>
+              <div class="emp-name">${r.name}</div>
+            </div>
+          </td>
+          <td><span class="tbadge">${r.dept}</span></td>
+          <td><span class="tchip" style="background:${tbg};color:${tc}">${ico} ${r.type}</span></td>
+          <td style="color:var(--txl);font-size:11px">${r.date}</td>
+          <td><span class="pri ${r.pri}">${PLAB[r.pri]}</span></td>
+          <td>
+            <div class="abts">
+              <button class="ibtn v" onclick="openDetail('${r.id}')">👁 <span class="ilbl">مشاهده</span></button>
+              ${
+                r.status > 0
+                  ? `<button class="ibtn b" onclick="openConfirm('${r.id}', false)">↩ <span class="ilbl">برگشت</span></button>`
+                  : '<div style="width:28px"></div>'
+              }
+            </div>
+          </td>
+        </tr>`;
+      })
+      .join("");
+  }
+  renderPagi();
+  updBulk();
+  document.getElementById("chkAll").checked =
+    items.length > 0 && items.every((r) => selIds.has(r.id));
+}
+
+function renderPagi() {
+  const tot = filtRqs.length;
+  const pages = Math.ceil(tot / PS);
+  const s = Math.min((curPg - 1) * PS + 1, tot);
+  const e = Math.min(curPg * PS, tot);
+
+  document.getElementById("paginfo").textContent = tot
+    ? `نمایش ${fn(s)} تا ${fn(e)} از ${fn(tot)} درخواست`
+    : "";
+
+  const pb = document.getElementById("pbts");
+  pb.innerHTML = "";
+  if (pages <= 1) return;
+  for (let i = 1; i <= pages; i++) {
+    const b = document.createElement("button");
+    b.className = "pbtn" + (i === curPg ? " act" : "");
+    b.textContent = fn(i);
+    b.onclick = () => {
+      curPg = i;
+      renderTbl();
+    };
+    pb.appendChild(b);
+  }
 }
