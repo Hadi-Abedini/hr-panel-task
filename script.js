@@ -181,3 +181,58 @@ function selStatus(i) {
   curPg = 1;
   applyF();
 }
+
+function applyF() {
+  const q = document.getElementById("srch").value.trim().toLowerCase();
+  const ft = document.getElementById("ftype").value;
+  const fd = document.getElementById("fdept").value;
+  const fp = document.getElementById("fpri").value;
+
+  filtRqs = rqs.filter((r) => {
+    if (selSt !== -1 && r.status !== selSt) return false;
+    if (ft && r.type !== ft) return false;
+    if (fd && r.dept !== fd) return false;
+    if (fp && r.pri !== fp) return false;
+    if (
+      q &&
+      !r.name.includes(q) &&
+      !r.dept.toLowerCase().includes(q) &&
+      !r.id.toLowerCase().includes(q)
+    )
+      return false;
+    return true;
+  });
+  curPg = 1;
+  renderTbl();
+  updPanel();
+  updChips(q, ft, fd, fp);
+}
+
+function updPanel() {
+  const ti = document.getElementById('ptxt');
+  const ba = document.getElementById('pbadge');
+  if (selSt === -1) {
+    ti.textContent = 'همه درخواست‌ها';
+    ba.style.cssText = 'background:#f1f5f9;color:#475569';
+  } else {
+    ti.textContent = SN[selSt];
+    ba.style.cssText = `background:${SC[selSt][1]};color:${SC[selSt][0]}`;
+  }
+  ba.textContent = fn(filtRqs.length) + ' درخواست';
+}
+
+function updChips(q, ft, fd, fp) {
+  const el = document.getElementById('fchips');
+  el.innerHTML = '';
+  const add = (lbl, clr) => {
+    const c = document.createElement('div');
+    c.className = 'fchip';
+    c.innerHTML = `${lbl} <span class="fx">✕</span>`;
+    c.onclick = clr;
+    el.appendChild(c);
+  };
+  if (q)  add(`جستجو: "${q}"`, () => { document.getElementById('srch').value  = ''; applyF(); });
+  if (ft) add(ft,               () => { document.getElementById('ftype').value = ''; applyF(); });
+  if (fd) add(fd,               () => { document.getElementById('fdept').value = ''; applyF(); });
+  if (fp) add(PLAB[fp],         () => { document.getElementById('fpri').value  = ''; applyF(); });
+}
