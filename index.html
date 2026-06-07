@@ -162,6 +162,57 @@
         </div>
       </div>
     </div>
+    <!-- Detail Modal -->
+    <div class="mover" id="mDetail">
+      <div class="modal">
+        <div class="mhdr">
+          <div class="mhdr-l">
+            <h3>جزئیات درخواست</h3>
+            <span class="mschip" id="msc"></span>
+          </div>
+          <button class="mclose" onclick="closeM('mDetail')">✕</button>
+        </div>
+        <div class="mbody">
+          <div class="psteps" id="psteps"></div>
+          <div class="dgrid" id="dgrid"></div>
+        </div>
+        <div class="mfoot">
+          <button
+            class="btn btn-red"
+            id="dbackBtn"
+            onclick="openConfirm(null, true)"
+          >
+            ↩ بازگشت به مرحله قبل
+          </button>
+          <button class="btn btn-out" onclick="closeM('mDetail')">بستن</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Confirm Modal -->
+    <div class="mover" id="mConfirm">
+      <div class="modal cmod">
+        <div class="mhdr">
+          <h3>تأیید عملیات</h3>
+          <button class="mclose" onclick="closeM('mConfirm')">✕</button>
+        </div>
+        <div class="mbody">
+          <div class="cion">⚠️</div>
+          <div class="ctxt">
+            <h4>بازگشت به مرحله قبل</h4>
+            <p id="ctxt">آیا از این عملیات اطمینان دارید؟</p>
+          </div>
+        </div>
+        <div class="mfoot">
+          <button class="btn btn-red" onclick="doBack()">تأیید</button>
+          <button class="btn btn-out" onclick="closeM('mConfirm')">
+            انصراف
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
     <script src="script.js"></script>
   </body>
 </html>
