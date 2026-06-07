@@ -998,3 +998,61 @@ input[type="checkbox"] {
 .toast.show {
   transform: translateX(-50%) translateY(0);
 }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes slideD {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes mIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.scard {
+  animation: fadeUp 0.4s ease both;
+}
+.scard:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.scard:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.scard:nth-child(3) {
+  animation-delay: 0.15s;
+}
+.scard:nth-child(4) {
+  animation-delay: 0.2s;
+}
+
+.bbar.show {
+  animation: slideD 0.2s ease;
+}
+.modal {
+  animation: mIn 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.toast {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
