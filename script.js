@@ -327,3 +327,147 @@ function renderPagi() {
     pb.appendChild(b);
   }
 }
+
+function togSel(id) {
+  selIds.has(id) ? selIds.delete(id) : selIds.add(id);
+  renderTbl();
+}
+
+function togAll() {
+  const all = document.getElementById("chkAll").checked;
+  filtRqs
+    .slice((curPg - 1) * PS, curPg * PS)
+    .forEach((r) => (all ? selIds.add(r.id) : selIds.delete(r.id)));
+  renderTbl();
+}
+
+function clearSel() {
+  selIds.clear();
+  renderTbl();
+}
+
+function updBulk() {
+  const bar = document.getElementById("bbar");
+  const cnt = document.getElementById("bcnt");
+  if (selIds.size > 0) {
+    bar.classList.add("show");
+    cnt.textContent = fn(selIds.size) + " درخواست انتخاب شده";
+  } else {
+    bar.classList.remove("show");
+  }
+}
+
+function bulkBack() {
+  openConfirm(null, false);
+}
+
+function openM(id) {
+  document.getElementById(id).classList.add("show");
+}
+function closeM(id) {
+  document.getElementById(id).classList.remove("show");
+}
+
+function openDetail(id) {
+  const r = rqs.find((x) => x.id === id);
+  if (!r) return;
+  curId = id;
+
+  const chip = document.getElementById("msc");
+  chip.textContent = SN[r.status];
+  chip.style.cssText = `background:${SC[r.status][1]};color:${SC[r.status][0]}`;
+
+  document.getElementById("psteps").innerHTML = SN.map((s, i) => {
+    const cls = i < r.status ? "done" : i === r.status ? "cur" : "";
+    return `<div class="step ${cls}">
+      <div class="scirc">${i < r.status ? "✓" : fn(i + 1)}</div>
+      <div class="slbl">${s}</div>
+    </div>`;
+  }).join("");
+
+  const ti = TYPES.indexOf(r.type);
+  const ico = ti >= 0 ? TYPE_ICONS[ti] : "📝";
+
+  document.getElementById("dgrid").innerHTML = `
+    <div class="ditem"><label>شناسه درخواست</label><div class="dval" style="font-family:monospace;font-size:12px;color:#64748b">${r.id}</div></div>
+    <div class="ditem"><label>کد پرسنلی</label><div class="dval">${r.eid}</div></div>
+    <div class="ditem"><label>نام کارمند</label>
+      <div class="dval" style="display:flex;align-items:center;gap:8px">
+        <div class="emp-av" style="background:${avClr(r.id)};width:26px;height:26px;font-size:10px">${inits(r.name)}</div>
+        ${r.name}
+      </div>
+    </div>
+    <div class="ditem"><label>واحد سازمانی</label><div class="dval">${r.dept}</div></div>
+    <div class="ditem"><label>نوع درخواست</label><div class="dval">${ico} ${r.type}</div></div>
+    <div class="ditem"><label>تاریخ ثبت</label><div class="dval">${r.date}</div></div>
+    <div class="ditem"><label>مبلغ درخواستی (ریال)</label><div class="dval">${r.amt}</div></div>
+    <div class="ditem"><label>سابقه کاری</label><div class="dval">${r.wyr}</div></div>
+    <div class="ditem"><label>اولویت</label><div class="dval"><span class="pri ${r.pri}">${PLAB[r.pri]}</span></div></div>
+    <div class="ditem"><label>وضعیت فعلی</label><div class="dval" style="color:${SC[r.status][0]};font-weight:800">${SN[r.status]}</div></div>
+    <div class="dsep"></div>
+    <div class="ditem full"><label>توضیحات</label><div class="dval desc">${r.desc}</div></div>`;
+
+  document.getElementById("dbackBtn").style.display =
+    r.status > 0 ? "inline-flex" : "none";
+  openM("mDetail");
+}
+
+function openConfirm(id, fromDetail) {
+  if (id) {
+    pendIds = [id];
+    curId = id;
+  } else
+    pendIds = [...selIds].filter((i) => {
+      const r = rqs.find((x) => x.id === i);
+      return r && r.status > 0;
+    });
+
+  if (!pendIds.length) {
+    showToast("⚠️ هیچ درخواست واجد شرایطی یافت نشد");
+    return;
+  }
+
+  if (pendIds.length === 1) {
+    const r = rqs.find((x) => x.id === pendIds[0]);
+    document.getElementById("ctxt").textContent =
+      `درخواست ${r.id} (${r.name}) از مرحله «${SN[r.status]}» به مرحله «${SN[r.status - 1]}» بازگشت داده می‌شود. آیا تأیید می‌کنید؟`;
+  } else {
+    document.getElementById("ctxt").textContent =
+      `${fn(pendIds.length)} درخواست به مرحله قبل بازگشت داده می‌شوند. آیا تأیید می‌کنید؟`;
+  }
+
+  if (!fromDetail) closeM("mDetail");
+  openM("mConfirm");
+}
+
+function doBack() {
+  pendIds.forEach((id) => {
+    const r = rqs.find((x) => x.id === id);
+    if (r && r.status > 0) r.status--;
+  });
+  const c = pendIds.length;
+  pendIds = [];
+  closeM("mConfirm");
+  closeM("mDetail");
+  selIds.clear();
+  updCnts();
+  applyF();
+  showToast("✓ " + fn(c) + " درخواست با موفقیت به مرحله قبل بازگشت داده شد");
+}
+
+let tTimer;
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(tTimer);
+  tTimer = setTimeout(() => t.classList.remove("show"), 3200);
+}
+
+document.querySelectorAll(".mover").forEach((o) =>
+  o.addEventListener("click", function (e) {
+    if (e.target === this) this.classList.remove("show");
+  }),
+);
+
+init();
