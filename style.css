@@ -47,6 +47,7 @@ body {
 .main {
   padding: 24px;
   max-width: 1440px;
+  min-height: calc(100vh - 128px);
   margin: 0 auto;
 }
 
@@ -767,6 +768,7 @@ input[type="checkbox"] {
   background: #fff;
   z-index: 1;
   border-radius: 18px 18px 0 0;
+  z-index: 1000;
 }
 .mhdr-l {
   display: flex;
@@ -987,6 +989,69 @@ input[type="checkbox"] {
   transform: translateX(-50%) translateY(0);
 }
 
+/* ── FOOTER ── */
+.footer {
+  margin-top: 28px;
+  background: var(--p);
+  color: #fff;
+  box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.08);
+}
+
+.footer-content {
+  max-width: 1440px;
+  margin: 0 auto;
+  height: 64px;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.footer-title {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.footer-subtitle {
+  font-size: 11px;
+  opacity: 0.55;
+  margin-top: 2px;
+}
+
+.footer-copy {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.footer-dev {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.footer-dev strong {
+  color: #60a5fa;
+  font-weight: 700;
+}
+
 /* ── ANIMATIONS ── */
 @keyframes fadeUp {
   from {
@@ -1115,5 +1180,21 @@ input[type="checkbox"] {
   .scirc {
     width: 26px;
     height: 26px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-brand {
+    justify-content: center;
+  }
+
+  .footer-dev {
+    display: flex;
+    flex-direction: column;
   }
 }
