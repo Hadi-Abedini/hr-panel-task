@@ -6,19 +6,20 @@
 
 ### داشبورد
 
-![Dashboard](./screenshots/dashboard.png)
+<img width="2940" height="2066" alt="screencapture-127-0-0-1-5500-index-html-2026-06-07-10_42_49" src="https://github.com/user-attachments/assets/89ab4bb6-d2b3-4372-9d82-2f3bc08408fa" />
+
 
 ### لیست درخواست‌ها
 
-![Requests](./screenshots/requests.png)
+<img width="2940" height="1658" alt="screencapture-127-0-0-1-5500-index-html-2026-06-07-10_49_02" src="https://github.com/user-attachments/assets/083bc9db-2d67-443d-b6cc-ab9fad3fd996" />
 
 ### جزئیات درخواست
 
-![Details](./screenshots/details.png)
+<img width="2940" height="1658" alt="screencapture-127-0-0-1-5500-index-html-2026-06-07-10_49_26" src="https://github.com/user-attachments/assets/7350b423-fe6f-449f-83cd-9d623342694c" />
 
 ### نسخه موبایل
 
-![Mobile](./screenshots/mobile.png)
+<img width="656" height="2164" alt="screencapture-127-0-0-1-5500-index-html-2026-06-07-10_52_39" src="https://github.com/user-attachments/assets/ae1c7f24-2207-4b75-86be-78ec34dd2212" />
 
 ---
 
