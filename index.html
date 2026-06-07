@@ -37,6 +37,130 @@
           <p>نمای کلی و راهبری درخواست‌های کارمندان در چرخه تأیید و پرداخت</p>
         </div>
       </div>
+      <div class="sgrid">
+        <div class="scard" id="card-0">
+          <div class="sctop">
+            <div class="scicon">📋</div>
+            <div class="sccount" id="cnt-0">۰</div>
+          </div>
+          <div class="scname">بررسی اولیه</div>
+          <div class="scsub">در انتظار بررسی کارشناس</div>
+          <div class="scbar-wrap"><div class="scbar" id="bar-0"></div></div>
+        </div>
+        <div class="scard" id="card-1">
+          <div class="sctop">
+            <div class="scicon">📄</div>
+            <div class="sccount" id="cnt-1">۰</div>
+          </div>
+          <div class="scname">تکمیل مستندات</div>
+          <div class="scsub">نیازمند ارائه مدارک</div>
+          <div class="scbar-wrap"><div class="scbar" id="bar-1"></div></div>
+        </div>
+        <div class="scard" id="card-2">
+          <div class="sctop">
+            <div class="scicon">🏛️</div>
+            <div class="sccount" id="cnt-2">۰</div>
+          </div>
+          <div class="scname">طرح در کمیته</div>
+          <div class="scsub">در حال بررسی توسط کمیته</div>
+          <div class="scbar-wrap"><div class="scbar" id="bar-2"></div></div>
+        </div>
+        <div class="scard" id="card-3">
+          <div class="sctop">
+            <div class="scicon">💳</div>
+            <div class="sccount" id="cnt-3">۰</div>
+          </div>
+          <div class="scname">در انتظار پرداخت</div>
+          <div class="scsub">تأیید شده، آماده پرداخت</div>
+          <div class="scbar-wrap"><div class="scbar" id="bar-3"></div></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="phead">
+          <div class="ptitle">
+            <h3 id="ptxt">همه درخواست‌ها</h3>
+            <span class="sbadge" id="pbadge">۰ درخواست</span>
+          </div>
+          <div class="fbar">
+            <div class="sbox">
+              <span class="sico">🔍</span>
+              <input
+                type="text"
+                id="srch"
+                placeholder="جستجو: نام، واحد، شناسه…"
+                oninput="applyF()"
+              />
+            </div>
+            <select class="fsel" id="ftype" onchange="applyF()">
+              <option value="">نوع درخواست</option>
+              <option>وام ازدواج</option>
+              <option>وام مسکن</option>
+              <option>وام اضطراری</option>
+              <option>کمک هزینه تحصیلی</option>
+              <option>وام خودرو</option>
+              <option>بیمه تکمیلی</option>
+            </select>
+            <select class="fsel" id="fdept" onchange="applyF()">
+              <option value="">واحد سازمانی</option>
+              <option>فناوری اطلاعات</option>
+              <option>مالی</option>
+              <option>اداری</option>
+              <option>بازرگانی</option>
+              <option>حقوقی</option>
+              <option>فروش</option>
+              <option>پشتیبانی</option>
+            </select>
+            <select class="fsel" id="fpri" onchange="applyF()">
+              <option value="">اولویت</option>
+              <option value="h">بالا</option>
+              <option value="m">متوسط</option>
+              <option value="l">پایین</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="fchips" id="fchips"></div>
+
+        <div class="bbar" id="bbar">
+          <span class="bcnt" id="bcnt">۰ درخواست انتخاب شده</span>
+          <button class="btn btn-red btn-sm" onclick="bulkBack()">
+            ↩ بازگشت گروهی به مرحله قبل
+          </button>
+          <button class="btn btn-out btn-sm" onclick="clearSel()">
+            ✕ لغو انتخاب
+          </button>
+        </div>
+
+        <div class="tbox">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 36px">
+                  <input type="checkbox" id="chkAll" onchange="togAll()" />
+                </th>
+                <th>شناسه</th>
+                <th>کارمند</th>
+                <th>واحد سازمانی</th>
+                <th>نوع درخواست</th>
+                <th>تاریخ ثبت</th>
+                <th>اولویت</th>
+                <th style="text-align: left">عملیات</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+          <div class="empty" id="emp" style="display: none">
+            <div class="ei">📭</div>
+            <div class="et">نتیجه‌ای یافت نشد</div>
+            <p>فیلترها را تغییر دهید یا جستجوی جدیدی انجام دهید</p>
+          </div>
+        </div>
+
+        <div class="pagi">
+          <div class="paginfo" id="paginfo"></div>
+          <div class="pbts" id="pbts"></div>
+        </div>
+      </div>
     </div>
     <script src="script.js"></script>
   </body>
