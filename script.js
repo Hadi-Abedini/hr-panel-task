@@ -144,3 +144,40 @@ NAMES.forEach((nm, i) => {
     desc: DESCS[tIdx],
   });
 });
+
+function init() {
+  updCnts();
+  applyF();
+}
+
+function updCnts() {
+  const tot = rqs.length;
+  SN.forEach((_, i) => {
+    const c = rqs.filter((r) => r.status === i).length;
+    const pct = tot ? Math.round((c / tot) * 100) : 0;
+    document.getElementById("cnt-" + i).textContent = fn(c);
+    setTimeout(
+      () => {
+        const b = document.getElementById("bar-" + i);
+        if (b) b.style.width = pct + "%";
+      },
+      400 + i * 120,
+    );
+  });
+}
+
+function selStatus(i) {
+  if (selSt === i) {
+    selSt = -1;
+    document.getElementById("card-" + i).classList.remove("active");
+  } else {
+    document
+      .querySelectorAll(".scard")
+      .forEach((c) => c.classList.remove("active"));
+    document.getElementById("card-" + i).classList.add("active");
+    selSt = i;
+  }
+  selIds.clear();
+  curPg = 1;
+  applyF();
+}
