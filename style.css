@@ -633,7 +633,7 @@ input[type="checkbox"] {
   display: flex;
   gap: 4px;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 .ibtn {
   height: 28px;
@@ -1085,8 +1085,8 @@ input[type="checkbox"] {
   }
   td:nth-child(4),
   th:nth-child(4),
-  td:nth-child(6),
-  th:nth-child(6) {
+  td:nth-child(7),
+  th:nth-child(7) {
     display: none;
   }
   .dgrid {

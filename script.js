@@ -275,6 +275,7 @@ function renderTbl() {
           </td>
           <td><span class="tbadge">${r.dept}</span></td>
           <td><span class="tchip" style="background:${tbg};color:${tc}">${r.type}</span></td>
+          <td><span class="pri" style="background:${SC[r.status][1]};color:${SC[r.status][0]}">${SN[r.status]}</span></td>
           <td style="color:var(--txl);font-size:11px">${r.date}</td>
           <td><span class="pri ${r.pri}">${PLAB[r.pri]}</span></td>
           <td>
