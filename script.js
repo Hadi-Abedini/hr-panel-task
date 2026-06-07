@@ -120,10 +120,6 @@ const PS = 8;
 
 // ── Helpers ──
 const fn = (n) => String(n).replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
-const inits = (nm) => {
-  const p = nm.trim().split(" ");
-  return p.length >= 2 ? p[0][0] + p[1][0] : p[0].slice(0, 2);
-};
 const avClr = (id) =>
   AVC[id.split("").reduce((a, c) => a + c.charCodeAt(0), 0) % AVC.length];
 
@@ -268,19 +264,17 @@ function renderTbl() {
       .map((r) => {
         const ti = TYPES.indexOf(r.type);
         const [tc, tbg] = ti >= 0 ? TYPE_COLORS[ti] : ["#64748b", "#f1f5f9"];
-        const ico = ti >= 0 ? TYPE_ICONS[ti] : "📝";
         return `
         <tr class="${selIds.has(r.id) ? "sel" : ""}" id="tr-${r.id}">
           <td><input type="checkbox" ${selIds.has(r.id) ? "checked" : ""} onchange="togSel('${r.id}')"></td>
           <td style="font-family:monospace;font-size:11px;color:#94a3b8">${r.id}</td>
           <td>
             <div class="emp-cell">
-              <div class="emp-av" style="background:${avClr(r.id)}">${inits(r.name)}</div>
               <div class="emp-name">${r.name}</div>
             </div>
           </td>
           <td><span class="tbadge">${r.dept}</span></td>
-          <td><span class="tchip" style="background:${tbg};color:${tc}">${ico} ${r.type}</span></td>
+          <td><span class="tchip" style="background:${tbg};color:${tc}">${r.type}</span></td>
           <td style="color:var(--txl);font-size:11px">${r.date}</td>
           <td><span class="pri ${r.pri}">${PLAB[r.pri]}</span></td>
           <td>
@@ -386,19 +380,17 @@ function openDetail(id) {
   }).join("");
 
   const ti = TYPES.indexOf(r.type);
-  const ico = ti >= 0 ? TYPE_ICONS[ti] : "📝";
 
   document.getElementById("dgrid").innerHTML = `
     <div class="ditem"><label>شناسه درخواست</label><div class="dval" style="font-family:monospace;font-size:12px;color:#64748b">${r.id}</div></div>
     <div class="ditem"><label>کد پرسنلی</label><div class="dval">${r.eid}</div></div>
     <div class="ditem"><label>نام کارمند</label>
       <div class="dval" style="display:flex;align-items:center;gap:8px">
-        <div class="emp-av" style="background:${avClr(r.id)};width:26px;height:26px;font-size:10px">${inits(r.name)}</div>
         ${r.name}
       </div>
     </div>
     <div class="ditem"><label>واحد سازمانی</label><div class="dval">${r.dept}</div></div>
-    <div class="ditem"><label>نوع درخواست</label><div class="dval">${ico} ${r.type}</div></div>
+    <div class="ditem"><label>نوع درخواست</label><div class="dval">${r.type}</div></div>
     <div class="ditem"><label>تاریخ ثبت</label><div class="dval">${r.date}</div></div>
     <div class="ditem"><label>مبلغ درخواستی (ریال)</label><div class="dval">${r.amt}</div></div>
     <div class="ditem"><label>سابقه کاری</label><div class="dval">${r.wyr}</div></div>
